@@ -24,13 +24,17 @@ fn process_day_1_part_2() -> u32 {
             let mut num_string: String = String::from("");
             let mut first_number: bool = false;
             let mut second_number: bool = false;
-            println!("{}", line);
-            // Check if first or last char is numeric
+            
+            println!("\n{}", line);
+
+            // Check if first char is numeric.
             let first_ch = line.chars().next().unwrap();
             if first_ch.is_numeric() {
                num_string.push(first_ch);
                first_number = true;
             }
+            
+            // Check if last char is numeric.
             let last_ch = line.chars().last().unwrap();
             if last_ch.is_numeric() {
                 num_string.push(last_ch);
@@ -41,10 +45,10 @@ fn process_day_1_part_2() -> u32 {
             if first_number && second_number {
                 let to_int: u32 = num_string.trim().parse().unwrap();
                 to_sum.push(to_int);
-                println!("Slots Full!! {}{}\n", first_ch, last_ch);
-
+                println!("Solution: {}", num_string);
                 continue;
             }
+
             // Need to search for strings within the line and return their index.
             // Build a struct (  )
             let num_words = HashMap::from([
@@ -96,7 +100,7 @@ fn process_day_1_part_2() -> u32 {
                         None => {
                         },
                         Some(tupval) => {
-                            // This needs to prepend instead of Push()
+                            num_string = tupval.0.to_string() + &num_string;
                         }
                     }
                 } 
@@ -113,7 +117,8 @@ fn process_day_1_part_2() -> u32 {
             //   see if we have one item, if we do, repeat it twice
             //   see if we have two items, if we do, add them sequentially
             //   see if we have > 2 items, if we do, add the first and the last item.
-            println!("First Char: {} - Last Char {}\n", first_ch, last_ch);
+            println!("First Char: {} - Last Char {}", first_ch, last_ch);
+            println!("Solution: {}", num_string);
             // Create an index of valid words +location
             // Valid numbers plus location
             // Could do quick check to see if last char is numeric, if so we know this is the last

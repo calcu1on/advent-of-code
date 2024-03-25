@@ -1,23 +1,17 @@
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
+use std::collections::HashMap;
 
 pub fn process() -> u32 {
     process_day_1_part_2()
 }
 
-#[allow(dead_code)]
-fn process_day_1() -> u32 {
-    let file_path = "./input_sources/day1.txt";
-    let mut to_sum: Vec<u32> = vec![];
-    if let Ok(lines) = read_lines(file_path) {
-        for line in lines.flatten() {
-            let numbers = extract_numbers_from_string(line.clone());
-            to_sum.push(numbers);
-        }
-    }
-    let sum: u32 = to_sum.iter().sum();
-    sum
+#[derive(Eq, Hash, PartialEq, Debug)]
+struct NumWord {
+    word: String,
+    value: u32,
+    location: u32
 }
 
 #[allow(unused_mut)]
@@ -53,30 +47,72 @@ fn process_day_1_part_2() -> u32 {
             }
             // Need to search for strings within the line and return their index.
             // Build a struct (  )
-            let num_words: Vec<String> = vec![
-                String::from("one"),
-                String::from("two"),
-                String::from("three"),
-                String::from("four"),
-                String::from("five"),
-                String::from("six"),
-                String::from("seven"),
-                String::from("eight"),
-                String::from("nine"),
-            ];
-            
-            for word in num_words {
+            let num_words = HashMap::from([
+                ("one".to_string(), 1),
+                ("two".to_string(), 2),
+                ("three".to_string(), 3),
+                ("four".to_string(), 4),
+                ("five".to_string(), 5),
+                ("six".to_string(), 6),
+                ("seven".to_string(), 7),
+                ("eight".to_string(), 8),
+                ("nine".to_string(), 9)
+            ]);
+                      
+            let mut words_info: HashMap<u32, u32> = HashMap::new();
+            for (word, val) in num_words {
                 let found_word: Option<usize> = line.find(&word);
                 match found_word {
                     None => {
                     },
                     Some(index) => {
-
-                        println!("Found word: {} at location {}", word, index)
+                        words_info.insert(val, index as u32);
+                        println!("Found word: {} at location {}", word, index);
                     }
                 }
             }
+            let mut count_vec: Vec<_> = words_info.iter().collect();
+            count_vec.sort_by(|a, b| a.1.cmp(b.1));
 
+            // If we have a first char, get the numeric value for the last item
+            let word_num_count = count_vec.len();
+
+            if first_number {
+                if word_num_count > 0 {
+                    let last_word_num = count_vec.clone().into_iter().last();
+                    match last_word_num {
+                        None => {
+                        },
+                        Some(tupval) => {
+                        }
+                    }
+                } 
+            }
+
+            if second_number {
+                if word_num_count > 0 {
+                    let first_word_num = count_vec.clone().into_iter().nth(0);
+                    match first_word_num {
+                        None => {
+                        },
+                        Some(tupval) => {
+                            // This needs to prepend instead of Push()
+                        }
+                    }
+                } 
+            }
+
+            if !first_number && !second_number {
+                
+        
+            }
+
+
+            // If we have a last char, get the numeric value for the first item
+            // If we have no chars, 
+            //   see if we have one item, if we do, repeat it twice
+            //   see if we have two items, if we do, add them sequentially
+            //   see if we have > 2 items, if we do, add the first and the last item.
             println!("First Char: {} - Last Char {}\n", first_ch, last_ch);
             // Create an index of valid words +location
             // Valid numbers plus location
@@ -99,6 +135,7 @@ where P: AsRef<Path>, {
     Ok(io::BufReader::new(file).lines())
 }
 
+#[allow(dead_code)]
 fn extract_numbers_from_string(input: String) -> u32 {
     let mut nums_in_string: Vec<char> = vec![];
     for char in input.chars() {

@@ -8,7 +8,7 @@ pub fn process() -> u32 {
 
 #[allow(dead_code)]
 fn process_day_1() -> u32 {
-    let file_path = "/Users/dan/Coding/rust/adventofcode/input_sources/day1.txt";
+    let file_path = "./input_sources/day1.txt";
     let mut to_sum: Vec<u32> = vec![];
     if let Ok(lines) = read_lines(file_path) {
         for line in lines.flatten() {
@@ -23,7 +23,7 @@ fn process_day_1() -> u32 {
 #[allow(unused_mut)]
 #[allow(unused_variables)]
 fn process_day_1_part_2() -> u32 {
-    let file_path = "/Users/dan/Coding/rust/adventofcode/input_sources/day1short.txt";
+    let file_path = "./input_sources/day1short.txt";
     let mut to_sum: Vec<u32> = vec![];
     if let Ok(lines) = read_lines(file_path) {
         for line in lines.flatten() {

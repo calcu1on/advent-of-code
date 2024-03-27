@@ -7,6 +7,19 @@ pub fn process() -> u32 {
     process_day_1_part_2()
 }
 
+fn process_day_1() -> u32 {
+    let file_path = "./input_sources/day1.txt";
+    let mut to_sum: Vec<u32> = vec![];
+    if let Ok(lines) = read_lines(file_path) {
+        for line in lines.flatten() {
+            let numbers = extract_numbers_from_string(line.clone());
+            to_sum.push(numbers);
+        }
+    }
+    let sum: u32 = to_sum.iter().sum();
+    sum
+}
+
 #[derive(Eq, Hash, PartialEq, Debug)]
 struct NumWord {
     word: String,
@@ -14,13 +27,18 @@ struct NumWord {
     location: u32
 }
 
-#[allow(unused_mut)]
-#[allow(unused_variables)]
 fn process_day_1_part_2() -> u32 {
     let file_path = "./input_sources/day1short.txt";
     let mut to_sum: Vec<u32> = vec![];
     if let Ok(lines) = read_lines(file_path) {
         for line in lines.flatten() {
+            let line_result: String = process_line(line);
+            println!("{:?}", line_result);
+            
+
+            continue;
+            //   extract first and last digit
+            //   digits can be either 1-9 or "one"-"nine"
             let mut num_string: String = String::from("");
             let mut first_number: bool = false;
             let mut second_number: bool = false;
@@ -49,7 +67,6 @@ fn process_day_1_part_2() -> u32 {
                 continue;
             }
 
-            // Need to search for strings within the line and return their index.
             // Build a struct (  )
             let num_words = HashMap::from([
                 ("one".to_string(), 1),
@@ -131,7 +148,36 @@ fn process_day_1_part_2() -> u32 {
     420 as u32
 }
 
+#[derive(Debug)]
+struct ProcessedLine {
+    first_num: u32,
+    second_num: u32,
+}
 
+fn process_line(input_line: String) -> String {
+    println!("{}", input_line);
+    let mut num_string: String = String::new();
+    let mut first_num_filled: bool = false;
+    let mut second_num_filled: bool = false;
+
+    // Check if first character is a digit
+    if input_line.chars().next().unwrap().is_numeric() {
+        num_string.push(input_line.chars().next().unwrap());
+        first_num_filled = true;
+    }
+
+    // Check if last char is a digit.
+    if input_line.chars().last().unwrap().is_numeric() {
+        num_string.push(input_line.chars().last().unwrap());
+        second_num_filled = true;
+    }
+
+    if first_num_filled && second_num_filled {
+        return num_string;
+    }
+
+    num_string
+}
 
 
 fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
@@ -140,7 +186,6 @@ where P: AsRef<Path>, {
     Ok(io::BufReader::new(file).lines())
 }
 
-#[allow(dead_code)]
 fn extract_numbers_from_string(input: String) -> u32 {
     let mut nums_in_string: Vec<char> = vec![];
     for char in input.chars() {

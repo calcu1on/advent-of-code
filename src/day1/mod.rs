@@ -30,15 +30,16 @@ fn process_day_1_part_2() -> u32 {
         }
     }
 
-//    println!("\nNumbers to Sum: {:?}", to_sum);
+//    //println!("\nNumbers to Sum: {:?}", to_sum);
     let sum: u32 = to_sum.iter().sum();
     sum
 }
 
 fn process_line(input_line: String) -> u32 {
-    println!("{}", input_line);
+    //println!("{}", input_line);
     let mut num_string: String = String::new();
     let mut collector: Vec<(u32, u32)> = vec![];
+    let mut r_collector: Vec<(u32, u32)> = vec![];
     let targets = HashMap::from([
                                   ("zero".to_string(), 0),
                                   ("0".to_string(), 0),
@@ -64,14 +65,27 @@ fn process_line(input_line: String) -> u32 {
 
     for (target, value) in targets {
         let found_target: Option<usize> = input_line.find(&target);
+        let r_found_target: Option<usize> = input_line.rfind(&target);
+
         match found_target {
             None => {
             },
             Some(index) => {
                 collector.push((value, index as u32));
-                //println!("Fount {} at {}", value, index);
+                //println!("Found {} at {}", value, index);
             }
         }
+
+        match r_found_target {
+            None => {
+            },
+            Some(index) => {
+                collector.push((value, index as u32));
+                //println!("Rfound {} at {}", value, index);
+            }
+        }
+
+
     }
 
     collector.sort_by_key(|k| k.1);
@@ -89,7 +103,7 @@ fn process_line(input_line: String) -> u32 {
     } else {
         first_number = collector.first().unwrap().0.to_string();
     }
-    println!("{:?}", String::from(first_number.to_owned() + &last_number).trim().parse::<u32>().unwrap());
+    //println!("{:?}", String::from(first_number.to_owned() + &last_number).trim().parse::<u32>().unwrap());
 
     String::from(first_number.to_owned() + &last_number).trim().parse::<u32>().unwrap()
 }

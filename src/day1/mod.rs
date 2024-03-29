@@ -1,6 +1,4 @@
-use std::fs::File;
-use std::io::{self, BufRead};
-use std::path::Path;
+use crate::utils::read_lines;
 use std::collections::HashMap;
 
 pub fn process() -> u32 {
@@ -106,13 +104,6 @@ fn process_line(input_line: String) -> u32 {
     //println!("{:?}", String::from(first_number.to_owned() + &last_number).trim().parse::<u32>().unwrap());
 
     String::from(first_number.to_owned() + &last_number).trim().parse::<u32>().unwrap()
-}
-
-
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where P: AsRef<Path>, {
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
 }
 
 fn extract_numbers_from_string(input: String) -> u32 {

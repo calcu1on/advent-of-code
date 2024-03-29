@@ -20,163 +20,78 @@ fn process_day_1() -> u32 {
     sum
 }
 
-#[derive(Eq, Hash, PartialEq, Debug)]
-struct NumWord {
-    word: String,
-    value: u32,
-    location: u32
-}
-
 fn process_day_1_part_2() -> u32 {
-    let file_path = "./input_sources/day1short.txt";
+    let file_path = "./input_sources/day1.txt";
     let mut to_sum: Vec<u32> = vec![];
     if let Ok(lines) = read_lines(file_path) {
         for line in lines.flatten() {
-            let line_result: String = process_line(line);
-            println!("{:?}", line_result);
-            
-
-            continue;
-            //   extract first and last digit
-            //   digits can be either 1-9 or "one"-"nine"
-            let mut num_string: String = String::from("");
-            let mut first_number: bool = false;
-            let mut second_number: bool = false;
-            
-            println!("\n{}", line);
-
-            // Check if first char is numeric.
-            let first_ch = line.chars().next().unwrap();
-            if first_ch.is_numeric() {
-               num_string.push(first_ch);
-               first_number = true;
-            }
-            
-            // Check if last char is numeric.
-            let last_ch = line.chars().last().unwrap();
-            if last_ch.is_numeric() {
-                num_string.push(last_ch);
-                second_number = true;
-            }
-
-            // If we have both of these filled, combine and continue.
-            if first_number && second_number {
-                let to_int: u32 = num_string.trim().parse().unwrap();
-                to_sum.push(to_int);
-                println!("Solution: {}", num_string);
-                continue;
-            }
-
-            // Build a struct (  )
-            let num_words = HashMap::from([
-                ("one".to_string(), 1),
-                ("two".to_string(), 2),
-                ("three".to_string(), 3),
-                ("four".to_string(), 4),
-                ("five".to_string(), 5),
-                ("six".to_string(), 6),
-                ("seven".to_string(), 7),
-                ("eight".to_string(), 8),
-                ("nine".to_string(), 9)
-            ]);
-                      
-            let mut words_info: HashMap<u32, u32> = HashMap::new();
-            for (word, val) in num_words {
-                let found_word: Option<usize> = line.find(&word);
-                match found_word {
-                    None => {
-                    },
-                    Some(index) => {
-                        words_info.insert(val, index as u32);
-                        println!("Found word: {} at location {}", word, index);
-                    }
-                }
-            }
-            let mut count_vec: Vec<_> = words_info.iter().collect();
-            count_vec.sort_by(|a, b| a.1.cmp(b.1));
-
-            // If we have a first char, get the numeric value for the last item
-            let word_num_count = count_vec.len();
-
-            if first_number {
-                if word_num_count > 0 {
-                    let last_word_num = count_vec.clone().into_iter().last();
-                    match last_word_num {
-                        None => {
-                        },
-                        Some(tupval) => {
-                        }
-                    }
-                } 
-            }
-
-            if second_number {
-                if word_num_count > 0 {
-                    let first_word_num = count_vec.clone().into_iter().nth(0);
-                    match first_word_num {
-                        None => {
-                        },
-                        Some(tupval) => {
-                            num_string = tupval.0.to_string() + &num_string;
-                        }
-                    }
-                } 
-            }
-
-            if !first_number && !second_number {
-                
-        
-            }
-
-
-            // If we have a last char, get the numeric value for the first item
-            // If we have no chars, 
-            //   see if we have one item, if we do, repeat it twice
-            //   see if we have two items, if we do, add them sequentially
-            //   see if we have > 2 items, if we do, add the first and the last item.
-            println!("First Char: {} - Last Char {}", first_ch, last_ch);
-            println!("Solution: {}", num_string);
-            // Create an index of valid words +location
-            // Valid numbers plus location
-            // Could do quick check to see if last char is numeric, if so we know this is the last
-            //  number for the return string.
-            // Will need a way to convert strings to digits (one -> 1)
+            let line_result: u32 = process_line(line);
+            to_sum.push(line_result);
         }
     }
 
-    println!("\nNumbers to Sum: {:?}", to_sum);
-    420 as u32
+//    println!("\nNumbers to Sum: {:?}", to_sum);
+    let sum: u32 = to_sum.iter().sum();
+    sum
 }
 
-#[derive(Debug)]
-struct ProcessedLine {
-    first_num: u32,
-    second_num: u32,
-}
-
-fn process_line(input_line: String) -> String {
+fn process_line(input_line: String) -> u32 {
     println!("{}", input_line);
     let mut num_string: String = String::new();
-    let mut first_num_filled: bool = false;
-    let mut second_num_filled: bool = false;
+    let mut collector: Vec<(u32, u32)> = vec![];
+    let targets = HashMap::from([
+                                  ("zero".to_string(), 0),
+                                  ("0".to_string(), 0),
+                                  ("one".to_string(), 1),
+                                  ("1".to_string(), 1),
+                                  ("two".to_string(), 2),
+                                  ("2".to_string(), 2),
+                                  ("three".to_string(), 3),
+                                  ("3".to_string(), 3),
+                                  ("four".to_string(), 4),
+                                  ("4".to_string(), 4),
+                                  ("five".to_string(), 5),
+                                  ("5".to_string(), 5),
+                                  ("six".to_string(), 6),
+                                  ("6".to_string(), 6),
+                                  ("seven".to_string(), 7),
+                                  ("7".to_string(), 7),
+                                  ("eight".to_string(), 8),
+                                  ("8".to_string(), 8),
+                                  ("nine".to_string(), 9), 
+                                  ("9".to_string(), 9)
+    ]);
 
-    // Check if first character is a digit
-    if input_line.chars().next().unwrap().is_numeric() {
-        num_string.push(input_line.chars().next().unwrap());
-        first_num_filled = true;
+    for (target, value) in targets {
+        let found_target: Option<usize> = input_line.find(&target);
+        match found_target {
+            None => {
+            },
+            Some(index) => {
+                collector.push((value, index as u32));
+                //println!("Fount {} at {}", value, index);
+            }
+        }
     }
 
-    // Check if last char is a digit.
+    collector.sort_by_key(|k| k.1);
+    let mut first_number: String = String::new();    
+    let mut last_number: String = String::new();
+    // Wacky override 
     if input_line.chars().last().unwrap().is_numeric() {
-        num_string.push(input_line.chars().last().unwrap());
-        second_num_filled = true;
+        last_number = input_line.clone().chars().last().unwrap().to_string(); 
+    } else {
+        last_number = collector.last().unwrap().0.to_string();
     }
-
-    if first_num_filled && second_num_filled {
-        return num_string;
+    // Wacky override 
+    if input_line.chars().nth(0).unwrap().is_numeric() {
+        first_number = input_line.clone().chars().nth(0).unwrap().to_string(); 
+    } else {
+        first_number = collector.first().unwrap().0.to_string();
     }
+    println!("{:?}", String::from(first_number.to_owned() + &last_number).trim().parse::<u32>().unwrap());
 
-    num_string
+    String::from(first_number.to_owned() + &last_number).trim().parse::<u32>().unwrap()
 }
 
 

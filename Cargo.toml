@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 reqwest = { version = "0.12.1", features = ["blocking"] }
+line-span = "0.1.5"
+linecount = "0.1.0"

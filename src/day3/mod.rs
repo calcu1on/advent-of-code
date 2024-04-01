@@ -7,18 +7,29 @@ use std::fs::File;
 pub fn process() -> u32 {
     let file_path = "./input_sources/day3short.txt";
     let mut total: u32 = 0;
-    let i = 2;
-    if let Ok(mut lines) = read_lines(file_path) {
-        let mut cur_line = lines.nth(i).expect("no current line");
-        let length: usize = count_lines(File::open(file_path).unwrap()).unwrap();
-        println!("{:?}", length);
-        if i > 0 {
-            let mut next_line = lines.nth(i + 1).expect("no next line found.");
-            let mut prev_line = lines.nth(i - 1).expect("no previous line found.");
-            println!("{:?}", prev_line);
-            println!("{:?}", next_line);
+    
+    let mut lines_vec: Vec<String> = vec![];
+    if let Ok(lines) = read_lines(file_path) {
+        for line in lines.flatten() {
+           lines_vec.push(line); 
         }
+    }
+    let length: usize = lines_vec.len();
+
+    let mut i = 0;
+    while i < length {
+        let cur_line = &lines_vec[i];
+        println!("{:?}", &lines_vec[i]);
         
+        if i < 9 {
+            let next_line = &lines_vec[i + 1];
+        }
+        if i > 0 {
+            let prev_line = &lines_vec[i - 1];
+            println!("Prev line is {:?}", prev_line);
+        }
+
+        i = i + 1;
     }
     total
 }

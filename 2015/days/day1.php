@@ -9,7 +9,7 @@
  */
 function day1solution1() {
   $start_time = microtime(true);
-  $instructions = file_get_contents('./inputs/day1.txt');
+  $instructions = file_get_contents('./2015/inputs/day1.txt');
   $up_floors = substr_count($instructions, "(");
   $down_floors = substr_count($instructions, ")");
   $total = $up_floors - $down_floors;

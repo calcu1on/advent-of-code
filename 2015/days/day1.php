@@ -7,7 +7,7 @@
  *
  * Runtime: ~0.158ms
  */
-function solution1() {
+function day1solution1() {
   $start_time = microtime(true);
   $instructions = file_get_contents('./inputs/day1.txt');
   $up_floors = substr_count($instructions, "(");
@@ -18,46 +18,32 @@ function solution1() {
   $execution_time = ($end_time - $start_time);
   echo $execution_time * 1000 . "\n";
 }
-solution1();
 
 /*
- * Solution 2
+ * Solution 1b
  *
- * Runtime: ~0.622ms
+ * Runtime: ~.33ms
  */
-function solution2() {
+function day1solution1b() {
   $start_time = microtime(true);
-  $instructions = file_get_contents('./inputs/day1.txt');
+  $instructions = file_get_contents('./2015/inputs/day1.txt');
   $chars = str_split($instructions);
+  $position = 1;
   $floor = 0;
   foreach ($chars as $char) {
     match ($char) {
       "(" => $floor++,
       ")" => $floor--,
-      default => 0,
     };
-  }
-  echo "The answer is $floor\n";
+    if ($floor == -1) {
+      break;
+    }
+    else {
+      $position++;
+    }
+  };
+  echo "The position is $position\n";
   $end_time = microtime(true);
   $execution_time = ($end_time - $start_time);
   echo $execution_time * 1000 . "\n";
 }
-solution2();
-
-/*
- * Solution 3
- *
- * Runtime: ~0
- */
-function solution3() {
-  $start_time = microtime(true);
-  $instructions = file_get_contents('./inputs/day1.txt');
-  $chars = str_split($instructions);
-  $values = array_count_values($chars);
-  $floor = $values['('] - $values[')'];
-  echo "The answer is $floor\n";
-  $end_time = microtime(true);
-  $execution_time = ($end_time - $start_time);
-  echo $execution_time * 1000 . "\n";
-}
-solution3();

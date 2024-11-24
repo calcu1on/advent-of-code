@@ -64,35 +64,23 @@ class Box {
 
 }
 
-function day2part1() {
+function day2(int $part = 1) {
   $box_dimension_list = file_get_contents('./2015/inputs/day2.txt');
   $box_dimension_list = explode(PHP_EOL, $box_dimension_list);
-  $wrapping_paper_total = 0;
+  $total = 0;
   foreach ($box_dimension_list as $box_dimensions) {
     if (strlen($box_dimensions) < 1) {
       continue;
     }
     $box = new Box();
     $box->extractDimensions($box_dimensions);
-    $wrapping_paper_total = $wrapping_paper_total + $box->calculateRequiredFootage();
-  }
-  return $wrapping_paper_total;
-}
-
-function day2part1b() {
-  $box_dimension_list = file_get_contents('./2015/inputs/day2.txt');
-  $box_dimension_list = explode(PHP_EOL, $box_dimension_list);
-  $ribbon_requirements = 0;
-  foreach ($box_dimension_list as $box_dimensions) {
-    if (strlen($box_dimensions) < 1) {
-      continue;
+    if ($part == 1) {
+      $total = $total + $box->calculateRequiredFootage();
     }
-    $box = new Box();
-    $box->extractDimensions($box_dimensions);
-    $ribbon_requirements = $ribbon_requirements + $box->calculateRibbonRequirements();
+    elseif ($part == 2) {
+      $total = $total + $box->calculateRibbonRequirements();
+    }
   }
-
-  return $ribbon_requirements;
+  return $total;
 }
-
 

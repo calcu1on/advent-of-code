@@ -12,6 +12,8 @@ $solutions['day_2']['part_1'] = day2(1);
 $solutions['day_2']['part_2'] = day2(2);
 $solutions['day_3']['part_1'] = day3(1);
 $solutions['day_3']['part_2'] = day3(2);
+$solutions['day_4']['part_1'] = day4(1);
+$solutions['day_4']['part_2'] = day4(2);
 
 // OUTPUT THE SOLUTIONS WE HAVE.
 foreach ($solutions as $day => $parts) {

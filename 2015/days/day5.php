@@ -43,10 +43,8 @@ function checkNice2(string $string): bool {
     if ($count >= 2) {
       $is_nice = TRUE;
       preg_match_all('/(.)(.)\1/', $string, $matches); 
-      if (count($matches[0]) > 1) {
-        $is_nice = TRUE;
-      }
-      else {
+      var_dump($matches);
+      if (count($matches[0]) < 1) {
         $is_nice = FALSE;
       }
     }

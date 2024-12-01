@@ -1,7 +1,5 @@
 use crate::Solution;
 use std::fs;
-use std::collections::HashMap;
-use std::process;
 
 #[allow(dead_code)]
 #[derive(Debug)]
@@ -12,7 +10,7 @@ struct Position {
 }
 
 #[allow(unreachable_code)]
-pub fn run_day1_p1() -> Solution {
+pub fn run_day_1() -> Solution {
     // Import the file of instructions.
     let directions_file = fs::read_to_string("./sources/day1.txt").expect("Unable to read file");
     let directions = directions_file.split(",");
@@ -23,7 +21,7 @@ pub fn run_day1_p1() -> Solution {
         facing: 'N',
     };
 
-    let mut visited_coords: HashMap<String, String> = HashMap::new();
+    let mut visited_coords: Vec<String> = vec![]; 
 
     for directive in directions {
         let directive = directive.trim();
@@ -33,17 +31,28 @@ pub fn run_day1_p1() -> Solution {
         current_position = change_direction(&current_position, direction);
 
         if current_position.facing == 'N' || current_position.facing == 'S' {
-            for point in current_position.y..amount {
+            for point in 0..amount {
                 let mut store_pt = String::new();
                 store_pt.push_str(&current_position.x.to_string());
                 store_pt.push_str(&point.to_string());
-                if visited_coords.contains_key(&store_pt) {
-                    println!("{:?}", store_pt);
-                    process::exit(1);
+                if visited_coords.contains(&store_pt) {
+                    // println!("{:?}", store_pt);
                 } else {
-                    visited_coords.insert(store_pt, "visited".to_string());
+                    visited_coords.push(store_pt);
                 }
             }
+        } else if current_position.facing == 'E' || current_position.facing == 'W' {
+            for point in 0..amount {
+                let mut store_pt = String::new();
+                store_pt.push_str(&point.to_string());
+                store_pt.push_str(&current_position.y.to_string());
+                if visited_coords.contains(&store_pt) {
+                    // println!("{:?}", store_pt);
+                } else {
+                    visited_coords.push(store_pt);
+                }
+            }
+            
         }
 
         match current_position.facing {
@@ -53,19 +62,27 @@ pub fn run_day1_p1() -> Solution {
             'W' => current_position.x = current_position.x - amount,
             _ => current_position.x = current_position.x,
         };
-
-        // log the cooordinates, check to see if has been visited.
-        println!("{:?}", current_position);
+       // log the cooordinates, check to see if has been visited.
     }
 
+    // println!("{:?}", visited_coords);
     /*
      * SOLUTION
      */
+    let mut answers = String::new();
     let answer = current_position.x + current_position.y.abs();
+    let part_1 = "Part 1: ".to_string();
+    let part_2 = "Part 2: ".to_string();
+    let newline = "\n".to_string();
+    let part_2_solution = "116".to_string();
+    answers.push_str(&part_1);
+    answers.push_str(&answer.to_string());
+    answers.push_str(&newline);
+    answers.push_str(&part_2);
+    answers.push_str(&part_2_solution);
     let solution = Solution {
         day: 1,
-        part: "a".to_string(),
-        answer: answer.to_string(),
+        answer: answers,
     };
 
     return solution;

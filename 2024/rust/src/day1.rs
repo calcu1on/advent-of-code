@@ -3,9 +3,9 @@ use std::fs;
 
 #[allow(dead_code)]
 pub fn run_day_1_part_1() -> Solution {
-
     let location_ids = fs::read_to_string("./inputs/day1.txt").expect("Unable to read file");
     let location_lines = location_ids.split("\n");
+    // Create location vectors.
     let mut left_locations: Vec<i32> = vec!();
     let mut right_locations: Vec<i32> = vec!();
 
@@ -34,7 +34,7 @@ pub fn run_day_1_part_1() -> Solution {
     let mut part_1_distance = 0;
     let mut part_2_distance = 0;
 
-    for i in 0..1000 {
+    for i in 0..llength {
         let mut diff = left_locations[i] - right_locations[i];
         diff = diff.abs();
         part_1_distance = part_1_distance + diff;

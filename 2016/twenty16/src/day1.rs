@@ -1,5 +1,7 @@
 use crate::Solution;
 use std::fs;
+use std::collections::HashMap;
+use std::process;
 
 #[allow(dead_code)]
 #[derive(Debug)]
@@ -21,12 +23,28 @@ pub fn run_day1_p1() -> Solution {
         facing: 'N',
     };
 
+    let mut visited_coords: HashMap<String, String> = HashMap::new();
+
     for directive in directions {
         let directive = directive.trim();
         let split = split_first_char(directive).unwrap();
         let direction = split.0;
         let amount = split.1.parse::<i32>().unwrap();
         current_position = change_direction(&current_position, direction);
+
+        if current_position.facing == 'N' || current_position.facing == 'S' {
+            for point in current_position.y..amount {
+                let mut store_pt = String::new();
+                store_pt.push_str(&current_position.x.to_string());
+                store_pt.push_str(&point.to_string());
+                if visited_coords.contains_key(&store_pt) {
+                    println!("{:?}", store_pt);
+                    process::exit(1);
+                } else {
+                    visited_coords.insert(store_pt, "visited".to_string());
+                }
+            }
+        }
 
         match current_position.facing {
             'N' => current_position.y = current_position.y + amount,
@@ -35,8 +53,14 @@ pub fn run_day1_p1() -> Solution {
             'W' => current_position.x = current_position.x - amount,
             _ => current_position.x = current_position.x,
         };
+
+        // log the cooordinates, check to see if has been visited.
+        println!("{:?}", current_position);
     }
 
+    /*
+     * SOLUTION
+     */
     let answer = current_position.x + current_position.y.abs();
     let solution = Solution {
         day: 1,

@@ -62,10 +62,8 @@ pub fn run_day_1() -> Solution {
             'W' => current_position.x = current_position.x - amount,
             _ => current_position.x = current_position.x,
         };
-       // log the cooordinates, check to see if has been visited.
     }
 
-    // println!("{:?}", visited_coords);
     /*
      * SOLUTION
      */

@@ -1,1 +1,0 @@
-/Users/danchadwick/Projects/advent-of-code/2016/twenty16/target/debug/twenty16: /Users/danchadwick/Projects/advent-of-code/2016/twenty16/src/day1.rs /Users/danchadwick/Projects/advent-of-code/2016/twenty16/src/main.rs

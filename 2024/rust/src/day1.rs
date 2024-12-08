@@ -2,7 +2,7 @@ use crate::Solution;
 use std::fs;
 
 #[allow(dead_code)]
-pub fn run_day_1_part_1() -> Solution {
+pub fn run_day_1() -> Solution {
     let location_ids = fs::read_to_string("./inputs/day1.txt").expect("Unable to read file");
     let location_lines = location_ids.split("\n");
     // Create location vectors.
@@ -45,19 +45,10 @@ pub fn run_day_1_part_1() -> Solution {
         part_2_distance = part_2_distance + value;
     }
 
-    let mut answers = String::new();
-    let part_1 = "Part 1: ".to_string();
-    answers.push_str(&part_1);
-    answers.push_str(&part_1_distance.to_string());
-    let newline = "\n".to_string();
-    answers.push_str(&newline);
-    let part_2 = "Part 2: ".to_string();
-    answers.push_str(&part_2);
-    answers.push_str(&part_2_distance.to_string());
-
     let solution = Solution {
         day: 1,
-        answer: answers,
+        answer_1: part_1_distance.to_string(),
+        answer_2: part_2_distance.to_string(),
     };
     
     return solution;

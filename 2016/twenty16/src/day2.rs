@@ -66,17 +66,11 @@ pub fn run_day_2() -> Solution {
     }
 
     // SOLUTION.
-    let mut answers = String::new();
-    let p1_intro = "Part 1: 97289".to_string();
-    let newline = "\n".to_string();
-    answers.push_str(&p1_intro);
-    answers.push_str(&newline);
-    let p2_intro = "Part 2: ".to_string();
-    answers.push_str(&p2_intro);
-    answers.push_str(&part_2_solution);
+    let part_1 = "97289".to_string();
     let solution = Solution {
         day: 2,
-        answer: answers,
+        answer_1: part_1,
+        answer_2: part_2_solution,
     };
 
     return solution;

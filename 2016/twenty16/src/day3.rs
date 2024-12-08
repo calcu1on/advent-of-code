@@ -58,20 +58,12 @@ pub fn day_3() -> Solution {
     }
     let p2_solution = valid_triangles.to_string();
 
-    let mut answers = String::new();
-    let part_1 = "Part 1: ".to_string();
-    let newline = "\n".to_string();
-    answers.push_str(&part_1);
-    answers.push_str(&p1_solution);
-    answers.push_str(&newline);
-    let part_2 = "Part 2: ".to_string();
-    answers.push_str(&part_2);
-    answers.push_str(&p2_solution);
-
     let solution = Solution {
         day: 3,
-        answer: answers,
+        answer_1: p1_solution,
+        answer_2: p2_solution
     };
+
     solution
 }
 

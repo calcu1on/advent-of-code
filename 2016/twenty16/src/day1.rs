@@ -67,20 +67,12 @@ pub fn run_day_1() -> Solution {
     /*
      * SOLUTION
      */
-    let mut answers = String::new();
-    let answer = current_position.x + current_position.y.abs();
-    let part_1 = "Part 1: ".to_string();
-    let part_2 = "Part 2: ".to_string();
-    let newline = "\n".to_string();
-    let part_2_solution = "116".to_string();
-    answers.push_str(&part_1);
-    answers.push_str(&answer.to_string());
-    answers.push_str(&newline);
-    answers.push_str(&part_2);
-    answers.push_str(&part_2_solution);
+    let part_1 = current_position.x + current_position.y.abs();
+    let part_2 = "116".to_string();
     let solution = Solution {
         day: 1,
-        answer: answers,
+        answer_1: part_1.to_string(),
+        answer_2: part_2,
     };
 
     return solution;

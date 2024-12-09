@@ -5,4 +5,5 @@ edition = "2021"
 authors = ["Dan Chadwick <dan@danchadwickdesign.com>"]
 
 [dependencies]
+regex = "1.11.1"
 tabled = "0.17.0"

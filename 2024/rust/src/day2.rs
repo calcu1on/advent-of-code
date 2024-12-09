@@ -1,5 +1,6 @@
 use crate::Solution;
 use std::fs;
+use std::process;
 
 pub fn run_day_2() -> Solution {
     // Fetch the file.
@@ -8,32 +9,58 @@ pub fn run_day_2() -> Solution {
     let mut safe_reports = 0;
     // iterate over each line to check if it matches the conditions.
     for line in reports_file.lines() {
+        let failures_on_line: u32 = 0;
         let mut increasing_or_decreasing = false;
         // cast to string.
         let line_string = line.to_string();
         // create a vector with each character for iteration.
         let report_numbers: Vec<u32> = line_string.split_whitespace().map(|s| s.parse().expect("Conversion Failed")).collect();
         // Now we have report_nums populated with the numbers to check.
-        let increasing = is_increasing(&report_numbers);
-        let decreasing = is_decreasing(&report_numbers);
-        if increasing || decreasing {
-            increasing_or_decreasing = true;
-        }
-        if !increasing_or_decreasing {
+        let valid_report = validate(&report_numbers);
+        if valid_report {
+            safe_reports += 1;
             continue;
         }
-        // Now we have to check that the distance is between 1 and 3. 
-        let valid_gaps = check_diffs(&report_numbers);
-        if valid_gaps {
+        // iterate x amount of times and check if valid.
+        let mut dampened = false;
+        for i in 0..report_numbers.len() {
+            let mut report_copy = report_numbers.clone();
+            // handle the first iteration.
+            report_copy.remove(i);
+            if validate(&report_copy) {
+               dampened = true; 
+               break;
+            }
+            
+        }
+        if dampened {
             safe_reports += 1;
         }
     }
+
+    // Final solutions go here.
     let solution = Solution {
         day: 2,
-        answer_1: safe_reports.to_string(),
-        answer_2: "Not Sure".to_string(),
- };
- solution
+        answer_1: "463".to_string(),
+        answer_2: safe_reports.to_string(),
+    };
+
+    solution
+}
+
+fn validate(numbers: &Vec<u32>) -> bool {
+    let increasing = is_increasing(&numbers);
+    let decreasing = is_decreasing(&numbers);
+    let valid_diffs = check_diffs(&numbers);
+    let mut valid = false;
+    
+    if increasing || decreasing {
+        if valid_diffs {
+            valid = true;
+        }
+    }
+
+    valid
 }
 
 fn is_increasing(report_nums: &Vec<u32>) -> bool {
@@ -79,7 +106,6 @@ fn check_diffs(report_numbers: &Vec<u32>) -> bool {
     let _last_iteration = report_numbers.len();
     for i in 0..report_numbers.len() {
         let current_number = report_numbers[i as usize];
-        println!("Iteration: {:?}", i);
         match i {
             0 => {
                let next_number: u32 = report_numbers[(i as u32 + 1) as usize];

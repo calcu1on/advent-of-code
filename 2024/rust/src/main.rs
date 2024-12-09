@@ -1,3 +1,6 @@
+#![allow(warnings)]
+#![allow(unused)]
+
 use tabled::{Table, Tabled};
 pub mod day1;
 pub mod day2;
@@ -20,7 +23,6 @@ impl Solution {
         answer.push_str(&newline);
         answer.push_str(&part_2_intro);
         answer.push_str(&self.answer_2);
-
         answer
     }
 }

@@ -19,14 +19,14 @@ pub fn run_day_3() -> Solution {
     let mut part2_sum = 0;
     let dont_regex = Regex::new("don't\\(\\)").unwrap();
     let do_regex = Regex::new("do\\(\\)").unwrap();
-    let mut donts: Vec<u64> = dont_regex.find(&file).map(|m| m.start() as u64).into_iter().collect();
-    let mut dos: Vec<u64> = do_regex.find(&file).map(|m| m.start() as u64).into_iter().collect();
+    let donts: Vec<u64> = dont_regex.find_iter(&file).map(|m| m.start() as u64).collect();
+    let dos: Vec<u64> = do_regex.find_iter(&file).map(|m| m.start() as u64).collect();
+
     for mul in re.captures_iter(&file) {
-        let start: usize = mul.get(1).unwrap().start();
+        let start: usize = mul.get(0).unwrap().start();
         // get the closest number, that is lower than the start value
         let mut closest_dont = 0;
         for i in (0..start).rev() {
-            // remove 1 becasue we want to search in reverse.
             let mut index = i as u64;
             if donts.contains(&index) {
                 closest_dont = index;
@@ -42,8 +42,6 @@ pub fn run_day_3() -> Solution {
             }
         }
 
-        println!("{:?} -> {:?}", closest_do, closest_dont);
-
         if closest_do > closest_dont {
             let num1: &u32 = &mul[1].parse().expect("Conversion failed");
             let num2: &u32 = &mul[2].parse().expect("Conversion failed");
@@ -58,8 +56,6 @@ pub fn run_day_3() -> Solution {
             part2_sum += total;  
         }
     }
-
-    // println!("{:?} -> {:?}", dos, donts);
 
     // Final solutions here.
     let solution = Solution {

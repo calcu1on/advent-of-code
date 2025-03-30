@@ -5,6 +5,7 @@ use tabled::{Table, Tabled};
 pub mod day1;
 pub mod day2;
 pub mod day3;
+pub mod day4;
 
 #[derive(Tabled)]
 pub struct Solution {
@@ -33,12 +34,11 @@ fn main() {
     let day1 = day1::run_day_1();
     let day2 = day2::run_day_2();
     let day3 = day3::run_day_3();
+    let day4 = day4::run_day_4();
     rows.push(day1);
     rows.push(day2);
     rows.push(day3);
-
+    rows.push(day4);
     let table = Table::new(rows);
-
     print!("{}", table);
-
 }

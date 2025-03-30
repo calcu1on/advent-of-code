@@ -2,17 +2,32 @@ use crate::Solution;
 use std::fs;
 use std::process;
 
+struct Direction {
+    x: i32,
+    y: i32,
+}
+
 pub fn run_day_4() -> Solution {
     let file = fs::read_to_string("./inputs/day4test.txt").expect("Unable to parse file");
     let search_map = build_search_map(&file);
-    // @here you are Dan
-    // this is now creating a vector which you can iterator over
-    // will need to work out logic to go through each letter
-    // and detect if it is part of a match or now
-    // somehow keeping track of past matches
-    // need to do in all directions and backwards
-    // this is...complicated.
-    dbg!(search_map[0][2]);
+    let directions: Vec<(i32, i32)> = vec![
+        (0,1), // N
+        (0,-1), // S
+        (1,0), // E
+        (-1,0), // W
+        (1,1), // NE
+        (-1,1), // NW
+        (1,-1), // SE
+        (-1,-1), // SW
+    ];
+
+    // idea 3.0
+    // iterate over each letter in the word search
+    // for each letter, build all possible words around it
+    // we know the character length is 4 (XMAS, SAMX)
+    // so if we have a given point, i.e. (3,4)
+
+    dbg!(directions[0].0);
 
     // Return the solution
     let solution = Solution {
@@ -23,6 +38,7 @@ pub fn run_day_4() -> Solution {
     solution
 }
 
+// Builds a searchable map.
 fn build_search_map(row: &str) -> Vec<Vec<char>> {
     let mut search_map: Vec<Vec<char>> = vec!();
     for line in row.lines() {
@@ -32,8 +48,7 @@ fn build_search_map(row: &str) -> Vec<Vec<char>> {
     search_map
 }
 
-
+// converts a line into a vectory of chars
 fn line_to_chars(row_line: &str) -> Vec<char> {
     row_line.chars().collect()
 }
-

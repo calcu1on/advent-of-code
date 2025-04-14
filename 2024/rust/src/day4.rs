@@ -9,7 +9,7 @@ struct Direction {
 
 pub fn run_day_4() -> Solution {
     let file = fs::read_to_string("./inputs/day4test.txt").expect("Unable to parse file");
-    let search_map = build_search_map(&file);
+    let search_map: Vec<Vec<char>> = build_search_map(&file);
     let directions: Vec<(i32, i32)> = vec![
         (0,1), // N
         (0,-1), // S
